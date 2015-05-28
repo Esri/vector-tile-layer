@@ -4,7 +4,7 @@ This repo contains an experimental layer extenstion to the ArcGIS Javascript API
 
 The goal of this work is to explore ways to render vector tiles in the ArcGIS JS API and style them with Esri's Cartographic JSON Renderers commonly found in FeatureServices and Webmap JSON data.
 
-### [Live Demo](https://arcgis.github.io/vector-tile-layer/examples/index.html)
+### [Live Demo](http://arcgis.github.io/vector-tile-layer/examples/index.html)
 
 ## How this works
 
