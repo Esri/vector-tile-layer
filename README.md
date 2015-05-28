@@ -4,6 +4,8 @@ This repo contains an experimental layer extenstion to the ArcGIS Javascript API
 
 The goal of this work is to explore ways to render vector tiles in the ArcGIS JS API and style them with Esri's Cartographic JSON Renderers commonly found in FeatureServices and Webmap JSON data.
 
+### [Live Demo](https://arcgis.github.io/vector-tile-layer/examples/index.html)
+
 ## How this works
 
 There are 2 layer extensions in this repo. The first is a `CanvasTileLayer` which extends `TiledMapServiceLayer`. This layer creates a grid of canvas tiles on the map. Each canvas element is where data eventually get rendered. The second extension is a `PbfTileLayer` which extends the `CanvasTileLayer` with logic that is specfic to parsing Protocol Buffer tiles and applying JSON renderers to features on a canvas.
