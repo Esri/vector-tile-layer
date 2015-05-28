@@ -48,7 +48,7 @@
         map.on("load", mapLoaded);
 
         function mapLoaded() {
-          var urlTmpl = 'http://koop.dc.esri.com/github/chelm/geodata/us-counties2/tiles/{level}/ {col}/{row}.pbf';
+          var urlTmpl = 'http://koop.dc.esri.com/github/chelm/geodata/us-counties2/tiles/{level}/{col}/{row}.pbf';
           pbfLayer = new PbfTileLayer(urlTmpl, {
             buffer: 0,
             styles: { 

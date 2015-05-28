@@ -8,6 +8,47 @@ The goal of this work is to explore ways to render vector tiles in the ArcGIS JS
 
 There are 2 layer extensions in this repo. The first is a `CanvasTileLayer` which extends `TiledMapServiceLayer`. This layer creates a grid of canvas tiles on the map. Each canvas element is where data eventually get rendered. The second extension is a `PbfTileLayer` which extends the `CanvasTileLayer` with logic that is specfic to parsing Protocol Buffer tiles and applying JSON renderers to features on a canvas.
 
+### Creating the layer
+
+```javascript
+map = new Map("mapCanvas", {
+  center: [-99.076, 38.132],
+  zoom: 4,
+  maxZoom: 6,
+  basemap: "gray"
+});
+
+map.on("load", mapLoaded);
+
+function mapLoaded() {
+  var urlTmpl = 'http://koop.dc.esri.com/github/chelm/geodata/us-counties2/tiles/{level}/{col}/{row}.pbf';
+  pbfLayer = new PbfTileLayer(urlTmpl, {
+    buffer: 0,
+    styles: { 
+        'us-counties2': {
+          'minZoom': 2,
+          'maxZoom': 6,
+          'renderer':{
+            type: "simple",
+            symbol: {
+              type: "esriSFS",
+              style: "esriSFSSolid",
+              color: [ 154, 238, 49, .7 ],
+              outline: {
+                type: "esriSLS",
+                style: "esriSLSSolid",
+                color: [155,155,155,.5],
+                width: .5
+              }
+            }
+          }
+        }
+    }
+  });
+  map.addLayer(pbfLayer);
+}
+```
+
 ### Parsing 
 
 We use 2 awesome libraries from Mapbox for parsing the vector tile data: 
