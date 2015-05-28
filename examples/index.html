@@ -26,8 +26,7 @@
 
     <script src="//js.arcgis.com/3.8compact/"></script>
     <script>
-      var map, rasterLayer;
-      var canvasSupport;
+      var map, pbfLayer;
 
       require([
         "esri/map", 
@@ -39,7 +38,6 @@
         dom, 
         PbfTileLayer 
       ){
-        
         map = new Map("mapCanvas", {
           center: [-99.076, 38.132],
           zoom: 4,
@@ -51,9 +49,9 @@
 
         function mapLoaded() {
           var urlTmpl = 'http://koop.dc.esri.com/github/chelm/geodata/us-counties2/tiles/{level}/ {col}/{row}.pbf';
-          var pbfTileLayer = new PbfTileLayer(urlTmpl, {
-              buffer: 0,
-              styles: { 
+          pbfLayer = new PbfTileLayer(urlTmpl, {
+            buffer: 0,
+            styles: { 
                 'us-counties2': {
                   'minZoom': 2,
                   'maxZoom': 6,
@@ -72,11 +70,22 @@
                     }
                   }
                 }
-              }
-            });
-            map.addLayer(pbfTileLayer);
+            }
+          });
+          map.addLayer(pbfLayer);
         }
 
+      });
+
+      var min = 0; max = 255;
+      document.addEventListener('keypress', function (evt) {
+        if (evt.keyCode === 32){
+          var r = Math.floor(Math.random() * (max - min + 1)) + min,
+          g = Math.floor(Math.random() * (max - min + 1)) + min,
+          b = Math.floor(Math.random() * (max - min + 1)) + min;
+          pbfLayer.styles['us-counties2'].renderer.symbol.color = [r, g, b, .7];
+          pbfLayer.refresh(); 
+        }
       });
     </script>
   </head>

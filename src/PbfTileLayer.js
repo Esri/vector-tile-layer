@@ -57,7 +57,7 @@ var PbfTileLayer = declare(CanvasTileLayer, {
               setTimeout(function() {
                 try {
                   var tile = new VectorTile( new Pbf( data ) );
-                  //self._tileData[id] = tile;
+                  self._tileData[id] = tile;
                   self._render(element, tile, id, function(){
                     callback(null, null);
                   });  
@@ -93,10 +93,9 @@ var PbfTileLayer = declare(CanvasTileLayer, {
      _xhr.send(null);
   },
 
-  refreshStyles: function( styles ){
-    this.styles = styles;
+  refresh: function() {
     for (var id in this._tileData){
-      this._render( this._tileDom[id], this._tileData[id].tile, function(){} );
+      this._render( this._tileDom[id], this._tileData[id], id, function(){} );
     }
   },
 
