@@ -51,14 +51,20 @@ function mapLoaded() {
 }
 ```
 
-### Parsing 
+### Parsing Data
 
-We use 2 awesome libraries from Mapbox for parsing the vector tile data: 
+There are two modules used to parse PBF data. Tile data are requested from a server as Array Buffers and converted into a JSON structure before being rendering to the canvas. 
 
 * [https://github.com/mapbox/pbf](https://github.com/mapbox/pbf)
 * [https://github.com/mapbox/vector-tile-js](https://github.com/mapbox/vector-tile-js)
 
-Tile data are requested from a server as Array Buffers and converted into a JSON structure before being rendering to the canvas.
+```javascript
+
+// where data is a typed array return from a request to the server for a tile
+var tile = new VectorTile( new Pbf( data ) );
+
+```
+
 
 ## Tile Sources
 
