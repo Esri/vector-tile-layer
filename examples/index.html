@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title></title>
+
+    <link rel="stylesheet" href="//js.arcgis.com/3.8/js/esri/css/esri.css">
+    <script src="lib/pbf.min.js"></script>
+    <script src="lib/vectortile.min.js"></script>
+    <script src="dojo-config.js"></script>
+
+    <style>
+      html,body {
+        width:100%;
+        height:100%;
+        margin: 0;
+        padding: 0px 0 0 0;
+      }
+
+      #mapCanvas {
+        padding:0;
+      }
+
+    </style>
+
+    <script src="//js.arcgis.com/3.8compact/"></script>
+    <script>
+      var map, rasterLayer;
+      var canvasSupport;
+
+      require([
+        "esri/map", 
+        "dojo/dom", 
+        "plugins/PbfTileLayer",
+        "dojo/domReady!"
+      ], function(
+        Map, 
+        dom, 
+        PbfTileLayer 
+      ){
+        
+        map = new Map("mapCanvas", {
+          center: [-99.076, 38.132],
+          zoom: 4,
+          maxZoom: 6,
+          basemap: "gray"
+        });
+
+        map.on("load", mapLoaded);
+
+        function mapLoaded() {
+          var urlTmpl = 'http://koop.dc.esri.com/github/chelm/geodata/us-counties2/tiles/{level}/ {col}/{row}.pbf';
+          var pbfTileLayer = new PbfTileLayer(urlTmpl, {
+              buffer: 0,
+              styles: { 
+                'us-counties2': {
+                  'minZoom': 2,
+                  'maxZoom': 6,
+                  'renderer':{
+                    type: "simple",
+                    symbol: {
+                      type: "esriSFS",
+                      style: "esriSFSSolid",
+                      color: [ 154, 238, 49, .7 ],
+                      outline: {
+                        type: "esriSLS",
+                        style: "esriSLSSolid",
+                        color: [155,155,155,.5],
+                        width: .5
+                      }
+                    }
+                  }
+                }
+              }
+            });
+            map.addLayer(pbfTileLayer);
+        }
+
+      });
+    </script>
+  </head>
+  
+  <body class="">
+     <div id="mapCanvas" style="height:100%;">
+     </div>
+  </body>
+
+</html>
