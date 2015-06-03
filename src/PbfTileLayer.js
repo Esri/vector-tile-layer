@@ -36,7 +36,7 @@ var PbfTileLayer = declare(CanvasTileLayer, {
   
   constructor: function ( urlTemplate, options) {
     this.inherited(arguments);
-    this.tileQ = queue(4);
+    this.tileQ = queue(8);
   },
 
   // override this method to create canvas elements instead of img
@@ -58,16 +58,15 @@ var PbfTileLayer = declare(CanvasTileLayer, {
                   var tile = new VectorTile( new Pbf( data ) );
                   self._tileData[id] = tile;
                   self._render(element, tile, id, function(){
-                    callback(null, null);
+                    callback();
                   });  
                 } catch(e) {
-                  console.log('Error parsing tile data', e); 
-                  callback(null, null);
+                  callback();
                 }
               }, 25);
             }, id);
           } catch(e){
-            console.log('Error fetching tile', e); 
+            console.log('Error fetching tile'); 
           }
         }
       });
@@ -84,7 +83,7 @@ var PbfTileLayer = declare(CanvasTileLayer, {
      _xhr.responseType = "arraybuffer";
      _xhr.onload = function( evt ) {
        var arrayBuffer = _xhr.response;
-       if ( arrayBuffer ) {
+       if ( arrayBuffer && _xhr.status === 200 ) {
          var byteArray = new Uint8Array( arrayBuffer );
          callback(null, byteArray); 
        }

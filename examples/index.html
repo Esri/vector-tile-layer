@@ -48,15 +48,15 @@
         map.on("load", mapLoaded);
 
         function mapLoaded() {
-          var tmpl = 'http://localhost:1337/agol/arcgis/9610ef7247c240b2b9490f8338f5bfa5/0/tiles/{level}/{col}/{row}.pbf';
-          //var tmpl = 'http://koop.dc.esri.com/agol/arcgis/9610ef7247c240b2b9490f8338f5bfa5/0/tiles/{level}/{col}/{row}.pbf';
-          pbfLayer = new PbfTileLayer(tmpl, {
+          var urlTmpl = 'http://koop.dc.esri.com/agol/arcgis/9610ef7247c240b2b9490f8338f5bfa5/0/tiles/{level}/{col}/{row}.pbf';
+          pbfLayer = new PbfTileLayer(urlTmpl, {
+            buffer: 0,
             styles: { 
               'USA_County_Crops_2007': {
-                'minZoom': 2,
-                'maxZoom': 6,
-                'renderer': {
-                  "visualVariables":[{"type":"colorInfo","field":"M013_07","normalizer":"AREA","stops":[{"value":0,"color":[255,255,204,204],"label":"< 0"},{"value":71300,"color":[194,230,153,204],"label":null},{"value":142601,"color":[120,198,121,204],"label":"142,601"},{"value":233797,"color":[49,163,84,204],"label":null},{"value":9007199254740999,"color":[0,104,55,204],"label":"> 324, 993"}]}],"type":"classBreaks","field":"M013_07","defaultSymbol":{"color":[170,170,170,204],"outline":{"color":[153,153,153,255], "width":0.375,"type":"esriSLS","style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"},"minValue":-9007199254740991,"classBreakInfos":[{"symbol":{"color":[194,230,153,204],"outline":{"color":[153,153,153,255],"width":0.375,"type":"esriSLS", "style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"},"classMaxValue":9007199254740991}],"defaultLabel":"Others"
+                'minZoom': 1,
+                'maxZoom': 8,
+                'renderer':{
+                  "visualVariables":[{"type":"colorInfo","field":"M013_07","stops":[{"value":0,"color":[255, 255,204,204],"label":"< 0"},{"value":71300,"color":[194,230,153,204],"label":null},{"value":142601,"color":[120,198,121,204],"label":"142,601"},{"value":233797,"color":[49,163,84,204],"label":null},{"value":9007199254740999,"color":[0,104,55,204], "label":"> 324, 993"}]}],"type":"classBreaks","field":"M013_07","defaultSymbol":{"color":[170,170,170,204],"outline":{"color": [153,153,153,255], "width":0.375,"type":"esriSLS","style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"},"minValue":-9007199254740991,"classBreakInfos":[{"symbol":{"color":[194,230,153,204],"outline":{"color":[153,153,153,255],"width":0.375, "type":"esriSLS", "style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"},"classMaxValue":9007199254740991}], "defaultLabel":"Others"
                 }
               }
             }
@@ -66,16 +66,17 @@
 
       });
 
-      /*var min = 0; max = 255;
+      var min = 0; max = 255;
       document.addEventListener('keypress', function (evt) {
         if (evt.keyCode === 32){
           var r = Math.floor(Math.random() * (max - min + 1)) + min,
           g = Math.floor(Math.random() * (max - min + 1)) + min,
           b = Math.floor(Math.random() * (max - min + 1)) + min;
-          pbfLayer.styles['us-counties2'].renderer.symbol.color = [r, g, b, .7];
+          pbfLayer.styles['USA_County_Crops_2007'].renderer.symbol.color = [r, g, b, .7];
           pbfLayer.refresh(); 
         }
-      });*/
+      });
+
     </script>
   </head>
   
