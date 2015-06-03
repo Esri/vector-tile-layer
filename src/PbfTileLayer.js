@@ -21,12 +21,14 @@ define(
   "esri/SpatialReference",
   "esri/geometry/Extent",
   "esri/geometry/Rect",
-  "plugins/CanvasTileLayer"
+  "plugins/CanvasTileLayer",
+  "queue"
 ],
 function(
   declare, connection, lang, array, Url, domConstruct, domClass, domGeom, domStyle,
   ArrayList, gfxMatrix, has, string,
-  esriNS, esriRequest, urlUtils, tileUtils, SpatialReference, Extent, Rect, CanvasTileLayer
+  esriNS, esriRequest, urlUtils, tileUtils, SpatialReference, Extent, Rect, 
+  CanvasTileLayer, queue
 ) {
 
 var PbfTileLayer = declare(CanvasTileLayer, {
@@ -193,14 +195,16 @@ var PbfTileLayer = declare(CanvasTileLayer, {
        
       } else if (renderer.type == 'classBreaks'){
         var field = renderer.field;
+        var normalizer = renderer.normalizer;
         layer._features.forEach(function( f,i ){
           feature = layer.feature(i);
           renderer.classBreakInfos.forEach( function( classStyle ){
+            //var val = (normalizer) ? feature.properties[field] / feature.properties[normalizer] : feature.properties[field];
             if (feature.properties[field] <= classStyle.classMaxValue && !feature._drawn ){
               if (renderer.visualVariables){
                 classStyle.visualVariables = renderer.visualVariables;
               }
-              self[ classStyle.symbol.type]( feature, context, classStyle, function(){} );
+              self[classStyle.symbol.type]( feature, context, classStyle, function(){} );
             }
           });
         });
@@ -320,7 +324,9 @@ var PbfTileLayer = declare(CanvasTileLayer, {
     if (style.visualVariables){
       style.visualVariables.forEach(function(vizVar){
         if (vizVar.type == "colorInfo" && feature.properties[vizVar.field]){
-          var val = feature.properties[vizVar.field];
+          var val = (vizVar.normalizer) ? 
+            feature.properties[vizVar.field] / feature.properties[vizVar.normalizer] : 
+            feature.properties[vizVar.field];
           for (var s = 1; s < vizVar.stops.length; s++){
             if (val > vizVar.stops[s-1].value && val < vizVar.stops[s].value){
               color = 'rgba('+vizVar.stops[s-1].color.join(',')+')';

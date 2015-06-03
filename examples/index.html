@@ -6,9 +6,8 @@
     <title></title>
 
     <link rel="stylesheet" href="//js.arcgis.com/3.8/js/esri/css/esri.css">
-    <script src="lib/pbf.min.js"></script>
-    <script src="lib/vectortile.min.js"></script>
-    <script src="lib/queue.v1.min.js"></script>
+    <script src="vendor/pbf.min.js"></script>
+    <script src="vendor/vectortile.min.js"></script>
     <script src="dojo-config.js"></script>
 
     <style>
@@ -25,7 +24,7 @@
 
     </style>
 
-    <script src="//js.arcgis.com/3.8compact/"></script>
+    <script src="//js.arcgis.com/3.12compact/"></script>
     <script>
       var map, pbfLayer;
 
@@ -49,28 +48,17 @@
         map.on("load", mapLoaded);
 
         function mapLoaded() {
-          var urlTmpl = 'http://koop.dc.esri.com/github/chelm/geodata/us-counties2/tiles/{level}/{col}/{row}.pbf';
-          pbfLayer = new PbfTileLayer(urlTmpl, {
-            buffer: 0,
+          var tmpl = 'http://localhost:1337/agol/arcgis/9610ef7247c240b2b9490f8338f5bfa5/0/tiles/{level}/{col}/{row}.pbf';
+          //var tmpl = 'http://koop.dc.esri.com/agol/arcgis/9610ef7247c240b2b9490f8338f5bfa5/0/tiles/{level}/{col}/{row}.pbf';
+          pbfLayer = new PbfTileLayer(tmpl, {
             styles: { 
-                'us-counties2': {
-                  'minZoom': 2,
-                  'maxZoom': 6,
-                  'renderer':{
-                    type: "simple",
-                    symbol: {
-                      type: "esriSFS",
-                      style: "esriSFSSolid",
-                      color: [ 154, 238, 49, .7 ],
-                      outline: {
-                        type: "esriSLS",
-                        style: "esriSLSSolid",
-                        color: [155,155,155,.5],
-                        width: .5
-                      }
-                    }
-                  }
+              'USA_County_Crops_2007': {
+                'minZoom': 2,
+                'maxZoom': 6,
+                'renderer': {
+                  "visualVariables":[{"type":"colorInfo","field":"M013_07","normalizer":"AREA","stops":[{"value":0,"color":[255,255,204,204],"label":"< 0"},{"value":71300,"color":[194,230,153,204],"label":null},{"value":142601,"color":[120,198,121,204],"label":"142,601"},{"value":233797,"color":[49,163,84,204],"label":null},{"value":9007199254740999,"color":[0,104,55,204],"label":"> 324, 993"}]}],"type":"classBreaks","field":"M013_07","defaultSymbol":{"color":[170,170,170,204],"outline":{"color":[153,153,153,255], "width":0.375,"type":"esriSLS","style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"},"minValue":-9007199254740991,"classBreakInfos":[{"symbol":{"color":[194,230,153,204],"outline":{"color":[153,153,153,255],"width":0.375,"type":"esriSLS", "style":"esriSLSSolid"},"type":"esriSFS","style":"esriSFSSolid"},"classMaxValue":9007199254740991}],"defaultLabel":"Others"
                 }
+              }
             }
           });
           map.addLayer(pbfLayer);
@@ -78,7 +66,7 @@
 
       });
 
-      var min = 0; max = 255;
+      /*var min = 0; max = 255;
       document.addEventListener('keypress', function (evt) {
         if (evt.keyCode === 32){
           var r = Math.floor(Math.random() * (max - min + 1)) + min,
@@ -87,7 +75,7 @@
           pbfLayer.styles['us-counties2'].renderer.symbol.color = [r, g, b, .7];
           pbfLayer.refresh(); 
         }
-      });
+      });*/
     </script>
   </head>
   

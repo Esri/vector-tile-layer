@@ -1,54 +1,69 @@
 # vector-tile-layer
 
-This repo contains an experimental layer extenstion to the ArcGIS Javascript API v3.\* for rendering tiles adhering to the [Mapbox Vector Tile Specification](https://github.com/mapbox/vector-tile-spec). 
+This repo contains an experimental layer extension to the ArcGIS Javascript API v3.\* that renders tiles adhering to the [Mapbox Vector Tile Specification](https://github.com/mapbox/vector-tile-spec). 
 
-The goal of this work is to explore ways to render vector tiles in the ArcGIS JS API and style them with Esri's Cartographic JSON Renderers commonly found in FeatureServices and Webmap JSON data.
+The goal of this work is to explore ways to render vector tiles in the ArcGIS JS API and style them with Esri's Cartographic JSON Renderers commonly found in Esri FeatureServices and Webmap JSON data.
 
 ### [Live Demo](http://arcgis.github.io/vector-tile-layer/examples/index.html)
 
 ## How this works
 
-There are 2 layer extensions in this repo. The first is a `CanvasTileLayer` which extends `TiledMapServiceLayer`. This layer creates a grid of canvas tiles on the map. Each canvas element is where data eventually get rendered. The second extension is a `PbfTileLayer` which extends the `CanvasTileLayer` with logic that is specfic to parsing Protocol Buffer tiles and applying JSON renderers to features on a canvas.
+There are 2 new layer "extensions/plugins" in this repo. The first is a `CanvasTileLayer` which extends `TiledMapServiceLayer`. This layer creates a grid of canvas tiles on the map instead of div or image tag. Each canvas element is where data will eventually be rendered. The second extension is a `PbfTileLayer` which extends the `CanvasTileLayer` with logic that is specfic to parsing Protocol Buffer tiles and applying JSON renderers to features on a canvas.
+
+## Future Work 
+
+There is much work still do here, and we love to colloborate. Things that project needs: 
+
+* Mouse events via a "hit-grid" sort of thing
+* More renderer support (see the list below for the current renderer support) 
+
+
+## Usage 
+
+Below is a functional example of how to create a `PbfTileLayer` and add it to a map.
 
 ### Creating the layer
 
 ```javascript
-map = new Map("mapCanvas", {
+
+// create a new map
+var map = new Map("mapCanvas", {
   center: [-99.076, 38.132],
   zoom: 4,
-  maxZoom: 6,
+  maxZoom: 10,
   basemap: "gray"
 });
 
-map.on("load", mapLoaded);
+// the url template points to tiles server with the {Z}/{X}/{Y}.* tile structure.
+var urlTemplate = 'http://someserver.com/tiles/{level}/{col}/{row}.pbf';
 
-function mapLoaded() {
-  var urlTmpl = 'http://koop.dc.esri.com/github/chelm/geodata/us-counties2/tiles/{level}/{col}/{row}.pbf';
-  pbfLayer = new PbfTileLayer(urlTmpl, {
-    buffer: 0,
-    styles: { 
-        'us-counties2': {
-          'minZoom': 2,
-          'maxZoom': 6,
-          'renderer':{
-            type: "simple",
-            symbol: {
-              type: "esriSFS",
-              style: "esriSFSSolid",
-              color: [ 154, 238, 49, .7 ],
-              outline: {
-                type: "esriSLS",
-                style: "esriSLSSolid",
-                color: [155,155,155,.5],
-                width: .5
-              }
+// create the new PbfTileLayer, with the url template and give it a style
+// the styles use layer names in tiles to apply a style so names need to match 
+var pbfLayer = new PbfTileLayer(urlTemplate, {
+  styles: { 
+      'tile-layer-name': {
+        'minZoom': 2,
+        'maxZoom': 6,
+        'renderer':{
+          type: "simple",
+          symbol: {
+            type: "esriSFS",
+            style: "esriSFSSolid",
+            color: [ 154, 238, 49, .7 ],
+            outline: {
+              type: "esriSLS",
+              style: "esriSLSSolid",
+              color: [155,155,155,.5],
+              width: .5
             }
           }
         }
-    }
-  });
-  map.addLayer(pbfLayer);
-}
+      }
+  }
+});
+
+// Add the layer to the map
+map.addLayer(pbfLayer);
 ```
 
 ### Parsing Data
@@ -57,6 +72,8 @@ There are two modules used to parse PBF data. Tile data are requested from a ser
 
 * [https://github.com/mapbox/pbf](https://github.com/mapbox/pbf)
 * [https://github.com/mapbox/vector-tile-js](https://github.com/mapbox/vector-tile-js)
+
+Both of these libraries are licensed under the [http://en.wikipedia.org/wiki/BSD_licenses](BSD License)
 
 ```javascript
 
@@ -76,10 +93,6 @@ There are currently only a few sources of protocol buffer tiles. This layer also
 We are also building vector tile support into Koop: 
 
 * [https://github.com/koopjs/koop-tile-plugin](https://github.com/koopjs/koop-tile-plugin)
-
-## Planned Work 
-
-As vector tiles become more central to the ArcGIS platform, this code will continue to grow as neccessary to support changes in the Vector Tile spec and new features Esri is planning on contributing to the vector tile space.
 
 ## Requirements
 
