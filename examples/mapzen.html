@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+    <title>Mapzen Vector Tile Service</title>
+
+    <link rel="stylesheet" href="//js.arcgis.com/3.8/js/esri/css/esri.css">
+    <script src="vendor/pbf.min.js"></script>
+    <script src="vendor/vectortile.min.js"></script>
+    <script src="renderers/mapzen.js"></script>
+    <script src="dojo-config.js"></script>
+
+    <style>
+      html,body {
+        width:100%;
+        height:100%;
+        margin: 0;
+        padding: 0px 0 0 0;
+      }
+
+      #mapCanvas {
+        padding:0;
+      }
+
+    </style>
+
+    <script src="//js.arcgis.com/3.8compact/"></script>
+    <script>
+      var map;
+      require([
+        "dojo/dom-construct", 
+        "esri/map", 
+        "esri/layers/FeatureLayer",
+        "esri/geometry/Extent",
+        "esri/InfoTemplate",
+        "plugins/PbfTileLayer",
+        "dojo/domReady!"
+      ], function(
+          domConstruct,
+          Map,
+          FeatureLayer,
+          Extent,
+          InfoTemplate,
+          PbfTileLayer 
+        ) {
+          var bounds = new Extent({
+            "xmin":-79.56139564514014,
+            "ymin":8.930594350094035,
+            "xmax":-79.48225975036486,
+            "ymax":8.994774848128985,
+            "spatialReference":{"wkid":4326}
+          });
+
+          map = new Map("map", { 
+            extent: bounds
+          });
+
+          pbfTileLayer = new PbfTileLayer('http://vector.mapzen.com/osm/all/{level}/{col}/{row}.mvt?api_key=vector-tiles-88szoJk', {
+              tileType: 'canvas',
+              styles: renderers
+          });
+          map.addLayer(pbfTileLayer);
+        }
+      );
+    </script>
+  </head>
+  
+  <body class="">
+     <div id="map" style="height:100%;">
+     </div>
+  </body>
+
+</html>
