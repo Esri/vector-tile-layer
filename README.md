@@ -2,7 +2,7 @@
 
 This repo contains an experimental layer extension to the ArcGIS Javascript API v3.\* that renders tiles adhering to the [Mapbox Vector Tile Specification](https://github.com/mapbox/vector-tile-spec). 
 
-The goal of this work is to explore ways to render vector tiles in the ArcGIS JS API and style them with Esri's Cartographic JSON Renderers commonly found in Esri FeatureServices and Webmap JSON data.
+The goal of this work is to explore ways to render vector tiles in the ArcGIS JS API and style them with Esri's Cartographic JSON renderers commonly found in Esri FeatureServices and Webmap JSON data.
 
 ### [Live Demo](http://arcgis.github.io/vector-tile-layer/examples/index.html)
 
