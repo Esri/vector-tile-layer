@@ -36,14 +36,13 @@ define(
   "esri/SpatialReference",
   "esri/geometry/Extent",
   "esri/geometry/Rect",
-  "plugins/CanvasTileLayer",
-  "queue"
+  "plugins/CanvasTileLayer"
 ],
 function(
   declare, connection, lang, array, Url, domConstruct, domClass, domGeom, domStyle,
   ArrayList, gfxMatrix, has, string,
   esriNS, esriRequest, urlUtils, tileUtils, SpatialReference, Extent, Rect, 
-  CanvasTileLayer, queue
+  CanvasTileLayer
 ) {
 
 var PbfTileLayer = declare(CanvasTileLayer, {
