@@ -21,5 +21,5 @@ limitations under the License.
 
 A copy of the license is available in the repository's [license.txt]( ./license.txt) file.
 
-[](Esri Tags: ArcGIS Web Mapping Vector Tile Layer)
+[](Esri Tags: ArcGIS Web Mapping Vector Tile Layer, deprecated)
 [](Esri Language: JavaScript)
